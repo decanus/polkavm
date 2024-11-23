@@ -1,3 +1,4 @@
+// Package polkavm contains go implementation of the [polkavm](https://github.com/paritytech/polkavm)
 package polkavm
 
 import "errors"
