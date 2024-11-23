@@ -12,26 +12,6 @@ type Context struct {
 	// @TODO config
 }
 
-type Step struct {
-	Skip            uint32
-	Instruction     OpCode
-	RegisterIndexes RegisterIndexes
-	GasCost         uint64
-}
-
-type Program struct {
-	steps []*Step
-}
-
-// StepAt returns all information for instruction at idx
-func (p *Program) StepAt(idx uint32) (*Step, error) {
-	if len(p.steps) <= int(idx) {
-		return nil, ErrInvalidStep
-	}
-
-	return p.steps[idx], nil
-}
-
 type Registers [13]uint32
 
 // State represents the VM active state
@@ -45,7 +25,6 @@ type State struct {
 
 // Execute executes a pvm Program using the supplied Context
 func Execute(program Program, ctx Context) error {
-
 	for {
 		if ctx.State.gas <= 0 {
 			return ErrOutOfGas
@@ -58,7 +37,6 @@ func Execute(program Program, ctx Context) error {
 
 		// @TODO think about successful returns
 		// @TODO host calls
-
 	}
 }
 
