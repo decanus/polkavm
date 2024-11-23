@@ -105,10 +105,15 @@ const (
 )
 
 var instructions = map[OpCode]InstructionFunc{
-	OpAdd: add,
-	OpSub: sub,
-	OpAnd: and,
-	OpXor: xor,
-	OpOr:  or,
-	OpMul: mul,
+	OpTrap:        trap,
+	OpFallthrough: fallthroughExec,
+	OpAdd:         add,
+	OpSub:         sub,
+	OpAnd:         and,
+	OpXor:         xor,
+	OpOr:          or,
+	OpMul:         mul,
+	OpDivU:        divu,
+	OpDivS:        divs,
+	OpRemU:        remu,
 }
