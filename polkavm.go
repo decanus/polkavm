@@ -54,10 +54,7 @@ func step(program Program, ctx Context) error {
 	ctx.State.gas -= program.GasCostAt(pc)
 	ri := program.RegisterIndexesAt(pc)
 
-	switch i {
-	case OpAdd:
-		return add(ctx, ri, program.SkipAt(pc))
-	}
+	fn := instructions[i]
 
-	return nil
+	return fn(ctx, ri, program.SkipAt(pc))
 }
