@@ -43,6 +43,7 @@ type State struct {
 	pc  uint32
 }
 
+// Execute executes a pvm Program using the supplied Context
 func Execute(program Program, ctx Context) error {
 
 	for {
