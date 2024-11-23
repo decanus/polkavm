@@ -116,12 +116,12 @@ func decodeImmediate(data []byte) uint32 {
 		return 0
 	}
 
-	value := 0
+	value := uint32(0)
 	for idx, i := range data {
-		value = value | int(i<<(8*idx)) // @TODO double check
+		value = value | uint32(i)<<(8*idx) // @TODO double check
 	}
 
 	shift := (4 - length) * 8
 
-	return (value << shift) >> shift
+	return uint32(int32(value<<shift) >> shift)
 }
