@@ -5,26 +5,19 @@ type Context struct {
 	// @TODO config
 }
 
+type Step struct {
+	Skip            uint32
+	Instruction     OpCode
+	RegisterIndexes RegisterIndexes
+	GasCost         uint64
+}
+
 type Program struct {
 }
 
-func (p *Program) SkipAt(idx uint32) uint32 {
-
-}
-
-// InstructionAt returns the instruction at idx
-func (p *Program) InstructionAt(idx uint32) (OpCode, error) {
-	return 0, nil // @TODO
-}
-
-// RegisterIndexesAt returns the register for instruction at  indexes at idx
-func (p *Program) RegisterIndexesAt(idx uint32) RegisterIndexes {
-
-}
-
-// GasCostAt returns the gas cost for instruction at index at idx
-func (p *Program) GasCostAt(idx uint32) uint64 {
-
+// StepAt returns all information for instruction at idx
+func (p *Program) StepAt(idx uint32) (*Step, error) {
+	return nil, nil // @TODO
 }
 
 type Registers [13]uint32
@@ -45,16 +38,15 @@ func Execute() {
 func step(program Program, ctx Context) error {
 	pc := ctx.State.pc
 
-	i, err := program.InstructionAt(pc)
+	s, err := program.StepAt(pc)
 	if err != nil {
 		// @TODO RETURN ERR
 		return nil
 	}
 
-	ctx.State.gas -= program.GasCostAt(pc)
-	ri := program.RegisterIndexesAt(pc)
+	ctx.State.gas -= s.GasCost
 
-	fn := instructions[i]
+	fn := instructions[s.Instruction]
 
-	return fn(ctx, ri, program.SkipAt(pc))
+	return fn(ctx, s.RegisterIndexes, s.Skip)
 }
