@@ -8,18 +8,22 @@ type Step struct {
 	GasCost     uint64
 }
 
+// RA returns the register A value
 func (s *Step) RA() uint8 {
 	return 0 // @TODO
 }
 
+// RB returns the register B value
 func (s *Step) RB() uint8 {
 	return 0 // @TODO
 }
 
+// RD returns the register D value
 func (s *Step) RD() uint8 {
 	return 0 // @TODO
 }
 
+// @TODO pass index
 func (s *Step) Immediate() uint32 {
 	length := min(len(s.Data), 4)
 	if length == 0 {
