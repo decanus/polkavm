@@ -1,6 +1,7 @@
 package polkavm
 
 import (
+	"encoding/binary"
 	"errors"
 	"math"
 )
@@ -59,6 +60,39 @@ var instructions = map[OpCode]InstructionFunc{
 
 		// @TODO check offset validity
 		ctx.State.pc += offset
+		return nil
+	},
+	OpJumpInd: func(ctx Context, s *Step) error {
+		// @todo
+		return nil
+	},
+	OpLoadImm: func(ctx Context, s *Step) error {
+		ctx.State.Registers[s.RA()] = s.Immediate()
+		ctx.State.pc += s.Skip + 1
+
+		return nil
+	},
+	OpLoadU8: func(ctx Context, s *Step) error {
+		val, err := ctx.State.Memory.Read(uint32(s.RA()), 1)
+		if err != nil {
+			return err
+		}
+
+		ctx.State.Registers[s.RA()] = binary.LittleEndian.Uint32(val) // @TODO check if little or big
+		ctx.State.pc += s.Skip + 1
+
+		return nil
+	},
+	OpLoadI8: func(ctx Context, s *Step) error {
+		val, err := ctx.State.Memory.Read(uint32(s.RA()), 1)
+		if err != nil {
+			return err
+		}
+
+		// @TODO check cause int
+		ctx.State.Registers[s.RA()] = binary.LittleEndian.Uint32(val) // @TODO check if little or big
+		ctx.State.pc += s.Skip + 1
+
 		return nil
 	},
 	OpAdd: func(ctx Context, s *Step) error {
