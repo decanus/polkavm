@@ -58,7 +58,9 @@ func TestDecodeImmediate(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("%x", test.Output), func(t *testing.T) {
-			o := decodeImmediate(test.Input)
+			s := &Step{Data: test.Input}
+
+			o := s.Immediate()
 			if o != test.Output {
 				t.Fatalf("expected %x actual %x", test.Output, o)
 			}

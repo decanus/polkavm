@@ -54,5 +54,5 @@ func step(program Program, ctx Context) error {
 
 	fn := instructions[s.Instruction]
 
-	return fn(ctx, s.RegisterIndexes, s.Skip)
+	return fn(ctx, s)
 }

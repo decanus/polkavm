@@ -2,12 +2,41 @@ package polkavm
 
 // Step represents a Programs steps metadata
 type Step struct {
-	Skip            uint32
-	Instruction     OpCode
-	Data            []byte
-	RegisterIndexes RegisterIndexes // @TODO may not need to parse indexes as they are in data?
-	GasCost         uint64
+	Skip        uint32
+	Instruction OpCode
+	Data        []byte
+	GasCost     uint64
 }
+
+func (s *Step) RA() uint8 {
+	return 0 // @TODO
+}
+
+func (s *Step) RB() uint8 {
+	return 0 // @TODO
+}
+
+func (s *Step) RD() uint8 {
+	return 0 // @TODO
+}
+
+func (s *Step) Immediate() uint32 {
+	length := min(len(s.Data), 4)
+	if length == 0 {
+		return 0
+	}
+
+	value := uint32(0)
+	for idx, i := range s.Data {
+		value = value | uint32(i)<<(8*idx) // @TODO double check
+	}
+
+	shift := (4 - length) * 8
+
+	return uint32(int32(value<<shift) >> shift)
+}
+
+func (s *Step) Immediate2() uint32 { return 0 }
 
 // Program represents a "parsed" and executable pvm program
 type Program struct {
