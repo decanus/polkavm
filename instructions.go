@@ -17,7 +17,48 @@ var instructions = map[OpCode]InstructionFunc{
 		return nil
 	},
 	OpStoreImmU8: func(ctx Context, s *Step) error {
+		addr, value := s.Immediate2()
 
+		err := ctx.State.Memory.Write(addr, []byte{uint8(value)}) // @TODO check
+		if err != nil {
+			return err
+		}
+
+		ctx.State.pc += s.Skip + 1
+
+		return nil
+	},
+	OpStoreImmU16: func(ctx Context, s *Step) error {
+		//addr, value := s.Immediate2()
+		//
+		// @Todo encoding
+		//err := ctx.State.Memory.Write(addr, uint16(value)) // @TODO check
+		//if err != nil {
+		//	return err
+		//}
+
+		ctx.State.pc += s.Skip + 1
+
+		return nil
+	},
+	OpStoreImmU32: func(ctx Context, s *Step) error {
+		//addr, value := s.Immediate2()
+		//
+		// @Todo encoding
+		//err := ctx.State.Memory.Write(addr, uint16(value)) // @TODO check
+		//if err != nil {
+		//	return err
+		//}
+
+		ctx.State.pc += s.Skip + 1
+
+		return nil
+	},
+	OpJump: func(ctx Context, s *Step) error {
+		offset := s.Immediate()
+
+		// @TODO check offset validity
+		ctx.State.pc += offset
 		return nil
 	},
 	OpAdd: func(ctx Context, s *Step) error {

@@ -11,7 +11,8 @@ const (
 	OpStoreImmU16 = OpCode(79)
 	OpStoreImmU32 = OpCode(38)
 
-	OpOpJumpInd = OpCode(19)
+	OpJump    = OpCode(5)
+	OpJumpInd = OpCode(19)
 
 	OpLoadImm = OpCode(4)
 	OpLoadU8  = OpCode(60)
