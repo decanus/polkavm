@@ -40,7 +40,7 @@ func (s *Step) Immediate() uint32 {
 	return uint32(int32(value<<shift) >> shift)
 }
 
-func (s *Step) Immediate2() uint32 { return 0 }
+func (s *Step) Immediate2() (uint32, uint32) { return 0, 0 }
 
 // Program represents a "parsed" and executable pvm program
 type Program struct {

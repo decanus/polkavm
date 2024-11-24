@@ -19,6 +19,7 @@ type Registers [13]uint32
 type State struct {
 	ProgramCode Program
 	Registers   Registers
+	Memory      Memory
 
 	gas uint64
 	pc  uint32

@@ -16,6 +16,10 @@ var instructions = map[OpCode]InstructionFunc{
 		ctx.State.pc += s.Skip + 1
 		return nil
 	},
+	OpStoreImmU8: func(ctx Context, s *Step) error {
+
+		return nil
+	},
 	OpAdd: func(ctx Context, s *Step) error {
 		ra := ctx.State.Registers[s.RA()]
 		rb := ctx.State.Registers[s.RB()]
