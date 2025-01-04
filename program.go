@@ -28,7 +28,7 @@ func (s *Step) Immediate() uint32 {
 }
 
 func (s *Step) Immediate2() (uint32, uint32) {
-	lx := min(4, uint32(s.Data[0])&8)
+	lx := min(4, uint32(s.Data[0])%8)
 	ly := min(4, max(0, uint32(len(s.Data))-lx-1))
 
 	ix := make([]byte, lx)

@@ -81,6 +81,10 @@ func TestDecodeImmediate2(t *testing.T) {
 			Input:  []byte{0x02, 0x12, 0x34, 0x00},
 			Output: [2]uint32{0x3412, 0},
 		},
+		{
+			Input:  []byte{0x0C, 0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE},
+			Output: [2]uint32{0x7856_3412, 0xFFDE_BC9A},
+		},
 	}
 
 	for _, test := range tests {
@@ -88,9 +92,6 @@ func TestDecodeImmediate2(t *testing.T) {
 			s := &Step{Data: test.Input}
 
 			x, y := s.Immediate2()
-
-			fmt.Println(x)
-			fmt.Println(y)
 
 			if x != test.Output[0] {
 				t.Fatalf("expected x %x actual %x", test.Output[0], x)
