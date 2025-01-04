@@ -67,3 +67,37 @@ func TestDecodeImmediate(t *testing.T) {
 		})
 	}
 }
+
+func TestDecodeImmediate2(t *testing.T) {
+	tests := []struct {
+		Input  []byte
+		Output [2]uint32
+	}{
+		{
+			Input:  []byte{0x00, 0x00},
+			Output: [2]uint32{0, 0},
+		},
+		{
+			Input:  []byte{0x02, 0x12, 0x34, 0x00},
+			Output: [2]uint32{0x3412, 0},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprintf("%x", test.Output), func(t *testing.T) {
+			s := &Step{Data: test.Input}
+
+			x, y := s.Immediate2()
+
+			fmt.Println(x)
+			fmt.Println(y)
+
+			if x != test.Output[0] {
+				t.Fatalf("expected x %x actual %x", test.Output[0], x)
+			}
+			if y != test.Output[1] {
+				t.Fatalf("expected y %x actual %x", test.Output[1], y)
+			}
+		})
+	}
+}

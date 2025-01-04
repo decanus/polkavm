@@ -23,24 +23,38 @@ func (s *Step) RD() uint8 {
 	return 0 // @TODO
 }
 
-// @TODO pass index
 func (s *Step) Immediate() uint32 {
-	length := min(len(s.Data), 4)
+	return immediate(s.Data)
+}
+
+func (s *Step) Immediate2() (uint32, uint32) {
+	lx := min(4, uint32(s.Data[0])&8)
+	ly := min(4, max(0, uint32(len(s.Data))-lx-1))
+
+	ix := make([]byte, lx)
+	copy(ix[0:], s.Data[1:1+lx])
+
+	iy := make([]byte, ly)
+	copy(iy[0:], s.Data[1+lx:1+lx+ly])
+
+	return immediate(ix), immediate(iy)
+}
+
+func immediate(data []byte) uint32 {
+	length := min(len(data), 4)
 	if length == 0 {
 		return 0
 	}
 
 	value := uint32(0)
-	for idx, i := range s.Data {
-		value = value | uint32(i)<<(8*idx) // @TODO double check
+	for idx, i := range data {
+		value = value | uint32(i)<<(8*idx)
 	}
 
 	shift := (4 - length) * 8
 
 	return uint32(int32(value<<shift) >> shift)
 }
-
-func (s *Step) Immediate2() (uint32, uint32) { return 0, 0 }
 
 // Program represents a "parsed" and executable pvm program
 type Program struct {
